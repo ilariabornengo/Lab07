@@ -66,6 +66,7 @@ public class Model {
 				if(annoValido(e,parziale,maxAnni))
 				{
 					permuta(parziale,i+1,maxAnni,maxOre);
+					
 				}
 				parziale.remove(e);
 			}
