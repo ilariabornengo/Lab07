@@ -5,7 +5,11 @@
 package it.polito.tdp.poweroutages;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
+
+import it.polito.tdp.poweroutages.model.Evento;
 import it.polito.tdp.poweroutages.model.Model;
 import it.polito.tdp.poweroutages.model.Nerc;
 import javafx.event.ActionEvent;
@@ -16,6 +20,7 @@ import javafx.scene.control.TextField;
 
 public class FXMLController {
 
+	
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
 
@@ -35,10 +40,29 @@ public class FXMLController {
     private TextArea txtResult; // Value injected by FXMLLoader
 
     private Model model;
-    
+  
     @FXML
     void doRun(ActionEvent event) {
     	txtResult.clear();
+    	Integer nerc_id=cmbNerc.getValue().getId();
+    	String ore=txtHours.getText();
+    	String anni=txtYears.getText();
+    	Integer oreI=0;
+    	Integer anniI=0;
+    	
+    	try {
+    		oreI=Integer.parseInt(ore);
+    		anniI=Integer.parseInt(anni);
+    	}catch(NumberFormatException e)
+    	{
+    		e.printStackTrace();
+    	}
+    	List<Evento>eventiOK=model.trovaEventi(nerc_id, anniI, oreI);
+    	for(Evento e:eventiOK)
+    	{
+    		txtResult.appendText(e.toString());
+    	}
+    	
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
@@ -54,5 +78,7 @@ public class FXMLController {
     
     public void setModel(Model model) {
     	this.model = model;
+    	List<Nerc> listaNerc=this.model.getNercList();
+    	this.cmbNerc.getItems().addAll(listaNerc);
     }
 }
