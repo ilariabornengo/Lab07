@@ -16,6 +16,7 @@ public class Model {
 	List<Evento> eventiNercList;
 	List<Evento> listaOK;
 	List<Evento> best;
+	
 	int clienteMiglioreMax;
 	public Model() {
 		podao = new PowerOutageDAO();
@@ -25,7 +26,7 @@ public class Model {
 		return podao.getNercList();
 	}
 	
-	public List<Evento> trovaEventi(Integer nerc_id,int maxAnni,int maxOre){
+	public List<Evento> trovaEventi(int nerc_id,int maxAnni,int maxOre){
 		List<Evento> parziale=new ArrayList<>();
 		this.eventiNercList= podao.getListaEventi(nerc_id);
 		Collections.sort(eventiNercList,new ComparatorData());
@@ -42,7 +43,7 @@ public class Model {
 		{
 			return ;
 		}
-		else
+		if(numeroOreE<=maxOre)
 		{
 			int numClienti=calcolaClienti(parziale);
 			if(numClienti>clienteMiglioreMax)
@@ -62,7 +63,7 @@ public class Model {
 		
 		for(Evento e:eventiNercList)
 		{
-			if(!parziale.contains(e))
+			if(!parziale.contains(e) && annoValido(eventiNercList.get(i),parziale,maxAnni) )
 			{
 				parziale.add(e);
 				if(annoValido(e,parziale,maxAnni))
@@ -75,7 +76,7 @@ public class Model {
 		}
 	}
 
-	private boolean annoValido(Evento e, List<Evento> parziale, int maxAnni) {
+	public boolean annoValido(Evento e, List<Evento> parziale, int maxAnni) {
 		if(parziale.size()>=2)
 		{
 			int a1=parziale.get(0).getData_inizio().getYear();
@@ -86,7 +87,7 @@ public class Model {
 		return true;
 	}
 
-	private int calcolaClienti(List<Evento> parziale) {
+	public int calcolaClienti(List<Evento> parziale) {
 		int numeroC=0;
 		for(Evento e:parziale)
 		{
@@ -95,7 +96,7 @@ public class Model {
 		return numeroC;
 	}
 
-	private float calcolaOre(List<Evento> parziale) {
+	public float calcolaOre(List<Evento> parziale) {
 		float numeroOre=0;
 		for(Evento e:parziale)
 		{

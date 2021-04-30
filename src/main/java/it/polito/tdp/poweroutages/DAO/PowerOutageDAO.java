@@ -37,7 +37,7 @@ public class PowerOutageDAO {
 		return nercList;
 	}
 	
-	public List<Evento> getListaEventi(Integer nerc_id)
+	public List<Evento> getListaEventi(int nerc_id)
 	{
 		
 		String sql = "SELECT date_event_finished AS data_fine, date_event_began AS data_inizio, customers_affected, id AS id_evento, nerc_id "

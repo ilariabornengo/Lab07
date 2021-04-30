@@ -49,6 +49,7 @@ public class FXMLController {
     	String anni=txtYears.getText();
     	Integer oreI=0;
     	Integer anniI=0;
+    	String s="";
     	
     	try {
     		oreI=Integer.parseInt(ore);
@@ -58,10 +59,13 @@ public class FXMLController {
     		e.printStackTrace();
     	}
     	List<Evento>eventiOK=model.trovaEventi(nerc_id, anniI, oreI);
+    	s+="tot people affected: "+this.model.calcolaClienti(eventiOK)+"\n";
+    	s+="tot hours: "+this.model.calcolaOre(eventiOK)+"\n";
     	for(Evento e:eventiOK)
     	{
-    		txtResult.appendText(e.toString());
+    		s+=e.getData_inizio()+" "+e.getData_fine()+" "+e.getOreDisservizio()+" "+e.getCustomers_affected()+"\n";
     	}
+    	txtResult.setText(s);
     	
     }
 
