@@ -58,6 +58,8 @@ public class Model {
 			return;
 		}
 		
+		
+		
 		for(Evento e:eventiNercList)
 		{
 			if(!parziale.contains(e))
